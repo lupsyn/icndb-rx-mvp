@@ -1,0 +1,128 @@
+/*
+ *
+ *  * MIT License
+ *  *
+ *  * Copyright (c) 2017 Enrico Bruno Del Zotto
+ *  *
+ *  * Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  * of this software and associated documentation files (the "Software"), to deal
+ *  * in the Software without restriction, including without limitation the rights
+ *  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  * copies of the Software, and to permit persons to whom the Software is
+ *  * furnished to do so, subject to the following conditions:
+ *  *
+ *  * The above copyright notice and this permission notice shall be included in all
+ *  * copies or substantial portions of the Software.
+ *  *
+ *  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  * SOFTWARE.
+ *
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+apply from: '../config/quality.gradle'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.icndb.joke"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.compileSdkVersion
+        versionCode 1
+        versionName "1.0"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "com.icndb.joke.CustomTestRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+
+            // Run code coverage reports by default on debug builds.
+            testCoverageEnabled true
+        }
+    }
+    configurations.all {
+        resolutionStrategy {
+            force rootProject.ext.testLibraries.supportAnnotations
+            force rootProject.ext.libraries.androidSupport
+            force rootProject.ext.libraries.appCompat
+            force rootProject.ext.libraries.designSupport
+            force rootProject.ext.libraries.recyclerView
+        }
+    }
+}
+
+retrolambda {
+    jvmArgs '-noverify'
+}
+
+
+
+dependencies {
+
+    compile project(':core')
+
+    androidTestCompile rootProject.ext.testLibraries.mockito
+    androidTestCompile rootProject.ext.testLibraries.dexmaker
+    androidTestCompile rootProject.ext.testLibraries.dexmakerMockito
+    androidTestCompile rootProject.ext.testLibraries.supportTestRunner
+    androidTestCompile rootProject.ext.testLibraries.supportAnnotations
+    androidTestCompile rootProject.ext.testLibraries.espressoContrib
+    androidTestCompile rootProject.ext.testLibraries.espresso
+    androidTestCompile rootProject.ext.libraries.mockwebserver
+    androidTestCompile project(':mock')
+
+    compile rootProject.ext.libraries.dagger
+    apt rootProject.ext.aptLibraries.daggerCompiler
+    androidTestApt rootProject.ext.aptLibraries.daggerCompiler
+
+
+    compile rootProject.ext.libraries.appCompat
+    compile rootProject.ext.libraries.designSupport
+    compile rootProject.ext.libraries.recyclerView
+    compile rootProject.ext.libraries.cardView
+    compile rootProject.ext.libraries.glide
+
+    //rxjava androiod stuff
+    compile rootProject.ext.libraries.rxjava
+    compile rootProject.ext.libraries.rxandroid
+    compile rootProject.ext.libraries.rxbinding
+    compile rootProject.ext.libraries.rxrelay
+
+    //google gson
+    compile rootProject.ext.libraries.googlegson
+
+    //ButterKnife
+    compile rootProject.ext.libraries.butterknife
+    apt rootProject.ext.aptLibraries.butterknifeCompiler
+
+    //Lombok
+    provided rootProject.ext.libraries.lombok
+    apt rootProject.ext.libraries.lombok
+
+    //Extra stuff
+    compile 'com.yarolegovich:lovely-dialog:1.0.7'
+
+
+
+
+}
