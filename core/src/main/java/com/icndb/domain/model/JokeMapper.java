@@ -26,16 +26,22 @@
 
 package com.icndb.domain.model;
 
+import com.icndb.domain.api.model.ApiJoke;
 import com.icndb.domain.api.model.ApiJokeListResponse;
 import com.icndb.domain.api.model.ApiJokeSingleResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class JokeMapper {
 
     public List<JokeItem> map(ApiJokeListResponse response) {
-        return response.value.stream().map(apiJoke -> JokeItem.builder().value(apiJoke.joke).build()).collect(Collectors.toList());
+        List<JokeItem> toReturn = new ArrayList<>();
+        for (ApiJoke apiJoke : response.value) {
+            toReturn.add(JokeItem.builder().value(apiJoke.joke).build());
+        }
+        return toReturn;
     }
 
     public JokeItem map(ApiJokeSingleResponse response) {
