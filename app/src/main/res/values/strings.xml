@@ -31,7 +31,7 @@
     <string name="bt_never_ending_list">Never ending list</string>
     <string name="bt_dismiss">Dismiss</string>
     <string name="bt_submit">Submit</string>
-    <string name="bt_checkbox">Exclude notExplicit content</string>
+    <string name="bt_checkbox">Exclude explicit content</string>
     <string name="hint_edit_text">Your full name!</string>
     <string name="title_text_input_joke">Joke for: </string>
 </resources>
