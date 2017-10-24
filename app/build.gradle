@@ -25,13 +25,11 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.neenbedankt.android-apt'
 apply from: '../config/quality.gradle'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.icndb.joke"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -39,7 +37,6 @@ android {
         versionCode 1
         versionName "1.0"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         testInstrumentationRunner "com.icndb.joke.CustomTestRunner"
     }
     compileOptions {
@@ -69,60 +66,55 @@ android {
             force rootProject.ext.libraries.recyclerView
         }
     }
-}
 
-retrolambda {
-    jvmArgs '-noverify'
 }
 
 
 
 dependencies {
 
-    compile project(':core')
+    implementation project(':core')
+    //Tests
+    androidTestImplementation rootProject.ext.testLibraries.mockito
+    androidTestImplementation rootProject.ext.testLibraries.dexmaker
+    androidTestImplementation rootProject.ext.testLibraries.dexmakerMockito
+    androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
+    androidTestImplementation rootProject.ext.testLibraries.supportAnnotations
+    androidTestImplementation rootProject.ext.testLibraries.espressoContrib
+    androidTestImplementation rootProject.ext.testLibraries.espresso
+    androidTestImplementation rootProject.ext.libraries.mockwebserver
+    androidTestImplementation project(':mock')
+    //Dependency injection
+    implementation rootProject.ext.libraries.dagger
+    annotationProcessor rootProject.ext.aptLibraries.daggerCompiler
+    testAnnotationProcessor rootProject.ext.aptLibraries.daggerCompiler
 
-    androidTestCompile rootProject.ext.testLibraries.mockito
-    androidTestCompile rootProject.ext.testLibraries.dexmaker
-    androidTestCompile rootProject.ext.testLibraries.dexmakerMockito
-    androidTestCompile rootProject.ext.testLibraries.supportTestRunner
-    androidTestCompile rootProject.ext.testLibraries.supportAnnotations
-    androidTestCompile rootProject.ext.testLibraries.espressoContrib
-    androidTestCompile rootProject.ext.testLibraries.espresso
-    androidTestCompile rootProject.ext.libraries.mockwebserver
-    androidTestCompile project(':mock')
-
-    compile rootProject.ext.libraries.dagger
-    apt rootProject.ext.aptLibraries.daggerCompiler
-    androidTestApt rootProject.ext.aptLibraries.daggerCompiler
-
-
-    compile rootProject.ext.libraries.appCompat
-    compile rootProject.ext.libraries.designSupport
-    compile rootProject.ext.libraries.recyclerView
-    compile rootProject.ext.libraries.cardView
-    compile rootProject.ext.libraries.glide
+    //Libraries
+    implementation rootProject.ext.libraries.appCompat
+    implementation rootProject.ext.libraries.designSupport
+    implementation rootProject.ext.libraries.recyclerView
+    implementation rootProject.ext.libraries.cardView
+    implementation rootProject.ext.libraries.glide
 
     //rxjava androiod stuff
-    compile rootProject.ext.libraries.rxjava
-    compile rootProject.ext.libraries.rxandroid
-    compile rootProject.ext.libraries.rxbinding
-    compile rootProject.ext.libraries.rxrelay
+    implementation rootProject.ext.libraries.rxjava
+    implementation rootProject.ext.libraries.rxandroid
+    implementation rootProject.ext.libraries.rxbinding
+    implementation rootProject.ext.libraries.rxrelay
 
     //google gson
-    compile rootProject.ext.libraries.googlegson
+    implementation rootProject.ext.libraries.googlegson
 
     //ButterKnife
-    compile rootProject.ext.libraries.butterknife
-    apt rootProject.ext.aptLibraries.butterknifeCompiler
+    implementation rootProject.ext.libraries.butterknife
+    annotationProcessor rootProject.ext.aptLibraries.butterknifeCompiler
 
     //Lombok
     provided rootProject.ext.libraries.lombok
-    apt rootProject.ext.libraries.lombok
+    annotationProcessor rootProject.ext.libraries.lombok
 
     //Extra stuff
-    compile 'com.yarolegovich:lovely-dialog:1.0.7'
-
-
+    implementation 'com.yarolegovich:lovely-dialog:1.0.7'
 
 
 }
