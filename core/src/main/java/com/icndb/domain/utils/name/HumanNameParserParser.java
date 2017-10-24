@@ -1,25 +1,25 @@
-/*
- * The MIT License
- *
- * Copyright (c) 2010-2015 Jason Priem, Bruno P. Kinoshita
- *
+/**
+ * MIT License
+ * <p>
+ * Copyright (c) 2017 Enrico Bruno Del Zotto
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.icndb.domain.utils.name;
 
@@ -79,13 +79,13 @@ public class HumanNameParserParser {
         this.last = "";
         this.suffix = "";
 
-        this.suffixes = Arrays.asList(new String[] { "esq", "esquire", "jr",
-            "sr", "2", "ii", "iii", "iv" });
+        this.suffixes = Arrays.asList(new String[]{"esq", "esquire", "jr",
+                "sr", "2", "ii", "iii", "iv"});
         this.prefixes = Arrays
-            .asList(new String[] { "bar", "ben", "bin", "da", "dal",
-                "de la", "de", "del", "der", "di", "ibn", "la", "le",
-                "san", "st", "ste", "van", "van der", "van den", "vel",
-                "von" });
+                .asList(new String[]{"bar", "ben", "bin", "da", "dal",
+                        "de la", "de", "del", "der", "di", "ibn", "la", "le",
+                        "san", "st", "ste", "van", "van der", "van den", "vel",
+                        "von"});
 
         this.parse();
     }
@@ -138,40 +138,40 @@ public class HumanNameParserParser {
     private void parse() throws ParseException {
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
-        
+
         // The regex use is a bit tricky.  *Everything* matched by the regex will be replaced,
         // but you can select a particular parenthesized submatch to be returned.
         // Also, note that each regex requres that the preceding ones have been run, and matches chopped out.
         String nicknamesRegex = "(?i) ('|\\\"|\\(\\\"*'*)(.+?)('|\\\"|\\\"*'*\\)) "; // names that starts or end w/ an apostrophe break this
-        String suffixRegex = "(?i),* *(("+suffixes+")$)";
-        String lastRegex = "(?i)(?!^)\\b([^ ]+ y |"+prefixes+")*[^ ]+$";
+        String suffixRegex = "(?i),* *((" + suffixes + ")$)";
+        String lastRegex = "(?i)(?!^)\\b([^ ]+ y |" + prefixes + ")*[^ ]+$";
         String leadingInitRegex = "(?i)(^(.\\.*)(?= \\p{L}{2}))"; // note the lookahead, which isn't returned or replaced
         String firstRegex = "(?i)^([^ ]+)";
-        
+
         // get nickname, if there is one
         this.nicknames = this.name.chopWithRegex(nicknamesRegex, 2);
-        
+
         // get suffix, if there is one
         this.suffix = this.name.chopWithRegex(suffixRegex, 1);
-        
+
         // flip the before-comma and after-comma parts of the name
         this.name.flip(",");
-        
+
         // get the last name
         this.last = this.name.chopWithRegex(lastRegex, 0);
         if (StringUtils.isBlank(this.last)) {
-          throw new ParseException("Couldn't find a last name in '{" + this.name.getStr() + "}'.");
+            throw new ParseException("Couldn't find a last name in '{" + this.name.getStr() + "}'.");
         }
-        
+
         // get the first initial, if there is one
         this.leadingInit = this.name.chopWithRegex(leadingInitRegex, 1);
-        
+
         // get the first name
         this.first = this.name.chopWithRegex(firstRegex, 0);
         if (StringUtils.isBlank(this.first)) {
             throw new ParseException("Couldn't find a first name in '{" + this.name.getStr() + "}'");
         }
-        
+
         // if anything's left, that's the middle name
         this.middle = this.name.getStr();
     }

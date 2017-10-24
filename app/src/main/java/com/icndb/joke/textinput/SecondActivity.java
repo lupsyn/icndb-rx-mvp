@@ -1,27 +1,25 @@
-/*
- *
- *  * MIT License
- *  *
- *  * Copyright (c) 2017 Enrico Bruno Del Zotto
- *  *
- *  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  * of this software and associated documentation files (the "Software"), to deal
- *  * in the Software without restriction, including without limitation the rights
- *  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  * copies of the Software, and to permit persons to whom the Software is
- *  * furnished to do so, subject to the following conditions:
- *  *
- *  * The above copyright notice and this permission notice shall be included in all
- *  * copies or substantial portions of the Software.
- *  *
- *  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  * SOFTWARE.
- *
+/**
+ * MIT License
+ * <p>
+ * Copyright (c) 2017 Enrico Bruno Del Zotto
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 package com.icndb.joke.textinput;
@@ -38,18 +36,14 @@ import com.icndb.joke.ApplicationComponent;
 import com.icndb.joke.JokeApp;
 import com.icndb.joke.R;
 import com.icndb.joke.base.BaseActivity;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxrelay2.PublishRelay;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observable;
 
 import static com.icndb.joke.utils.AppConstants.VIEW_STATE_EXPLICIT_CHECKED;
 import static com.icndb.joke.utils.AppConstants.VIEW_STATE_SECOND_ACTIVITY;
@@ -80,10 +74,11 @@ public class SecondActivity extends BaseActivity implements TextPresenterImpl.Vi
         notExplicit = getIntent().getBooleanExtra(VIEW_STATE_EXPLICIT_CHECKED, false);
         textPresenter.register(this);
 
-        RxView.clicks(submitButton)
-                .debounce(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                .map(ignored -> inputText.getText().toString())
-                .subscribe(notify::call);
+//        RxView.clicks(submitButton)
+//                .debounce(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+//                .map(ignored -> inputText.getText().toString())
+//                .subscribe(notify::call);
+
 
         if (savedInstanceState != null) {
             ViewState savedState = savedInstanceState.getParcelable(VIEW_STATE_SECOND_ACTIVITY);
@@ -95,7 +90,7 @@ public class SecondActivity extends BaseActivity implements TextPresenterImpl.Vi
                 }
             }
         }
-        notifyExplicit.call(notExplicit);
+        notifyExplicit.accept(notExplicit);
     }
 
     @Override

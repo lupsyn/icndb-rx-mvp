@@ -1,29 +1,26 @@
-/*
- *
- *  * MIT License
- *  *
- *  * Copyright (c) 2017 Enrico Bruno Del Zotto
- *  *
- *  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  * of this software and associated documentation files (the "Software"), to deal
- *  * in the Software without restriction, including without limitation the rights
- *  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  * copies of the Software, and to permit persons to whom the Software is
- *  * furnished to do so, subject to the following conditions:
- *  *
- *  * The above copyright notice and this permission notice shall be included in all
- *  * copies or substantial portions of the Software.
- *  *
- *  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  * SOFTWARE.
- *
+/**
+ * MIT License
+ * <p>
+ * Copyright (c) 2017 Enrico Bruno Del Zotto
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-
 package com.icndb.joke.randomjoke;
 
 import android.content.Intent;
@@ -41,8 +38,8 @@ import com.icndb.joke.R;
 import com.icndb.joke.base.BaseActivity;
 import com.icndb.joke.neverending.ThirdActivity;
 import com.icndb.joke.textinput.SecondActivity;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxrelay2.PublishRelay;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import java.util.concurrent.TimeUnit;
@@ -53,8 +50,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import static com.icndb.joke.utils.AppConstants.MAIN_VIEW;
 import static com.icndb.joke.utils.AppConstants.MAIN_VIEW_SHOWED_TEXT;
@@ -90,15 +87,15 @@ public class MainActivity extends BaseActivity implements RandomPresenterImpl.Vi
         ButterKnife.bind(this);
         mainPresenter.register(this);
 
-        RxView.clicks(btRandomJoke)
-                .debounce(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                .subscribe(notify::call);
+//        RxView.clicks(btRandomJoke)
+//                .debounce(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+//                .subscribe(notify::acceptboolea);
 
         if (savedInstanceState != null) {
             notExplicit = savedInstanceState.getBoolean(MAIN_VIEW);
             showedValue = savedInstanceState.getString(MAIN_VIEW_SHOWED_TEXT);
             btCheckbox.setChecked(notExplicit);
-            notifyBoolean.call(notExplicit);
+            notifyBoolean.accept(notExplicit);
             if (showedValue != null) {
                 showInternalDialog(showedValue);
             }
@@ -137,7 +134,7 @@ public class MainActivity extends BaseActivity implements RandomPresenterImpl.Vi
     @OnCheckedChanged(R.id.bt_checkbox)
     public void onCheckBoxChanged(boolean isChecked) {
         notExplicit = isChecked;
-        notifyBoolean.call(notExplicit);
+        notifyBoolean.accept(notExplicit);
 
     }
 

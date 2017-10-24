@@ -1,25 +1,25 @@
-/*
- * The MIT License
- *
- * Copyright (c) 2010-2015 Jason Priem, Bruno P. Kinoshita
- *
+/**
+ * MIT License
+ * <p>
+ * Copyright (c) 2017 Enrico Bruno Del Zotto
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.icndb.domain.utils.name;
 
@@ -40,7 +40,7 @@ public class Name {
      * Encapsulated string. Not immutable! 
      */
     private String str;
-    
+
     /**
      * Creates a new Name object.
      * @param str encapsulated string.
@@ -56,7 +56,7 @@ public class Name {
     public String getStr() {
         return str;
     }
-    
+
     /**
      * Sets the encapsulated string value.
      * @param str string value
@@ -65,7 +65,7 @@ public class Name {
         this.str = str;
         this.norm();
     }
-    
+
     /**
      * Uses a regex to chop off and return part of the namestring.
      * There are two parts: first, it returns the matched substring,
@@ -80,18 +80,18 @@ public class Name {
         String chopped = "";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(this.str);
-        
+
         // workdaround for numReplacements in Java
         int numReplacements = 0;
         while (matcher.find()) {
             numReplacements++;
         }
-        
+
         // recreate or the groups are gone
         pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(this.str); 
+        matcher = pattern.matcher(this.str);
         if (matcher.find()) {
-            
+
             boolean subset = matcher.groupCount() > submatchIndex;
             if (subset) {
                 this.str = this.str.replaceAll(regex, " ");
@@ -104,7 +104,7 @@ public class Name {
         }
         return chopped;
     }
-    
+
     /**
      * Flips the front and back parts of a name with one another.
      * Front and back are determined by a specified character somewhere in the
@@ -124,7 +124,7 @@ public class Name {
             }
         }
     }
-    
+
     /**
      * <p>Removes extra whitespace and punctuation from {@code this.str}.</p>
      *
@@ -136,5 +136,5 @@ public class Name {
         this.str = this.str.replaceAll("\\s+", " ");
         this.str = this.str.replaceAll(",$", " ");
     }
-    
+
 }
